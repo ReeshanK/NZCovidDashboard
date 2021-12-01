@@ -163,7 +163,8 @@ function drawGraphs(cases, deaths, recovered) {
     for (let n=0; n < cases.length-1; n++) {
         let date = formatDate(cases[n][0]);
         let newDayCases = cases[n+1][1] - cases[n][1];
-        let height = Math.abs((150/100) * newDayCases);
+        //determines the max height space of the bars
+        let height = Math.abs((50/100) * newDayCases);
         
         dc.innerHTML += `<rect x="${rectStart}" y="145" width="${barWidth}" height="${height}" fill="orange" transform="rotate(-180 ${rectStart+5} 172.5)">
                             <title>${date} \n ${newDayCases} case/s</title> 
@@ -177,14 +178,15 @@ function drawGraphs(cases, deaths, recovered) {
         rectStart += 430/cases.length;
     }
     
-    for (let i=0; i < 10; i++) {
+    for (let i=0; i < 30; i++) {
         dc.innerHTML += `<line x1="40" y1="${startPos}" x2="40" y2="${endPos}" style="stroke:black; stroke-width:0.5"/>
                         <line x1="40" y1="${endPos}" x2="35" y2="${endPos}" style="stroke:black; stroke-width:0.5"/>
-                        <text x="23" y="${endPos+1}" font-weight="bold" font-size="0.4em" font-family="Helvetica, sans-serif">${inc}</text>
+                        <text x="23" y="${endPos+1}" font-weight="bold" font-size="0.3em" font-family="Helvetica, sans-serif">${inc}</text>
                         
                         `;
-        endPos -= 15;
-        startPos -= 15;
+        //changes the scale of the y-axis for the cases graph
+        endPos -= 5;
+        startPos -= 5;
         inc += 10;
     }
 
@@ -232,6 +234,8 @@ function drawGraphs(cases, deaths, recovered) {
 
     document.getElementById("dailyDeaths").style.display = "none";
     document.getElementById("dailyCases").style.display = "block";
+    //Recovered data does not exist, had to remove the pie graph until updates arrive 2/12/21
+    /*
     document.getElementById("pieGraph").style.display = "none";
 
     let totalCases          = cases[cases.length-2][1];
@@ -263,29 +267,30 @@ function drawGraphs(cases, deaths, recovered) {
                     <text x="120" y="30" font-weight="bold"  font-size="0.7em" font-family="Helvetica, sans-serif">Conditions of the Total COVID-19 Cases in NZ</text>
                                                        
                     `;
+                    */
 
 }
 
 function getGraph(btn) {
     let death = document.getElementById("dailyDeaths");
     let cases = document.getElementById("dailyCases");
-    let pie = document.getElementById("pieGraph");
+    //let pie = document.getElementById("pieGraph");
 
     if (btn === "Daydeath") {
         death.style.display = "block";
         cases.style.display = "none";
-        pie.style.display   = "none"
+        //pie.style.display   = "none"
     }
     
     else if (btn === "Daycases") {
         death.style.display = "none";
         cases.style.display = "block";
-        pie.style.display = "none"
+        //pie.style.display = "none"
     }
 
     else if (btn === "Pie") {
         death.style.display = "none";
         cases.style.display = "none";
-        pie.style.display = "block"
+        //pie.style.display = "block"
     }
 }
